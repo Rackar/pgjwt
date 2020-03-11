@@ -1,4 +1,3 @@
-\echo jwtDemo2 \quit
 
 CREATE EXTENSION pgjwt
 

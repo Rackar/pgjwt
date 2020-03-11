@@ -1,4 +1,3 @@
-\echo Use "CREATE EXTENSION pgjwt" to load this file. \quit
 
 
 create schema api;
