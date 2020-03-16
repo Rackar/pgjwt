@@ -1,10 +1,13 @@
 
 CREATE EXTENSION pgjwt
 
+-- 新建类型
 CREATE TYPE jwt_token AS (
   token text
 );
 
+
+-- 测试颁发token函数
 CREATE FUNCTION jwt_test() RETURNS public.jwt_token AS $$
   SELECT public.sign(
     row_to_json(r), 'reallyreallyreallyreallyverysafe'
@@ -16,7 +19,7 @@ CREATE FUNCTION jwt_test() RETURNS public.jwt_token AS $$
   ) r;
 $$ LANGUAGE sql;
 
--- run this once
+-- run this once 。将密钥写入数据库属性
 ALTER DATABASE postgres SET "app.jwt_secret" TO 'reallayreallybreally1reallcyverysafe';
 
 create schema if not exists basic_auth;
@@ -78,6 +81,12 @@ begin
   );
 end;
 $$;
+
+
+-- 增加类型
+CREATE TYPE basic_auth.jwt_token AS (
+  token text
+);
 
 
 -- login should be on your exposed schema
