@@ -158,7 +158,7 @@ DROP TABLE IF EXISTS "nideshop_channel" CASCADE;
 CREATE TABLE "nideshop_channel" (
   "id" serial NOT NULL  PRIMARY KEY,
   "name" varchar(45) NOT NULL DEFAULT '',
-  "category_id" integer NOT NULL DEFAULT '' references nideshop_category,
+  "category_id" integer NOT NULL DEFAULT '0' references nideshop_category,
   "url" varchar(255) NOT NULL DEFAULT '',
   "icon_url" varchar(255) NOT NULL DEFAULT '',
   "sort_order" smallint  NOT NULL DEFAULT '10'
@@ -167,12 +167,12 @@ CREATE TABLE "nideshop_channel" (
 -- ----------------------------
 -- Records of nideshop_channel
 -- ----------------------------
-INSERT INTO "nideshop_channel" VALUES (0, '居家', '/pages/category/category?id=1005000', 'http://ac-3yr0g9cz.clouddn.com/c031ea3cf575f885cd1c.png', 0);
-INSERT INTO "nideshop_channel" VALUES (1, '居家', '/pages/category/category?id=1005000', 'http://ac-3yr0g9cz.clouddn.com/c031ea3cf575f885cd1c.png', 1);
-INSERT INTO "nideshop_channel" VALUES (2, '餐厨', '/pages/category/category?id=1005001', 'http://ac-3yr0g9cz.clouddn.com/4fbe8913819b017ebe1b.png', 2);
-INSERT INTO "nideshop_channel" VALUES (3, '配件', '/pages/category/category?id=1008000', 'http://ac-3yr0g9cz.clouddn.com/e8070853e6c6f5627713.png', 3);
-INSERT INTO "nideshop_channel" VALUES (4, '服装', '/pages/category/category?id=1005002', 'http://ac-3yr0g9cz.clouddn.com/4fa3c0c72964901c5a45.png', 4);
-INSERT INTO "nideshop_channel" VALUES (5, '志趣', '/pages/category/category?id=1019000', 'http://ac-3yr0g9cz.clouddn.com/da8716daa0ede53a9bb8.png', 5);
+INSERT INTO "nideshop_channel" VALUES (0, '居家',1005000, '/pages/category/category?id=1005000', 'http://ac-3yr0g9cz.clouddn.com/c031ea3cf575f885cd1c.png', 0);
+INSERT INTO "nideshop_channel" VALUES (1, '居家',1005000, '/pages/category/category?id=1005000', 'http://ac-3yr0g9cz.clouddn.com/c031ea3cf575f885cd1c.png', 1);
+INSERT INTO "nideshop_channel" VALUES (2, '餐厨',1005001, '/pages/category/category?id=1005001', 'http://ac-3yr0g9cz.clouddn.com/4fbe8913819b017ebe1b.png', 2);
+INSERT INTO "nideshop_channel" VALUES (3, '配件',1008000, '/pages/category/category?id=1008000', 'http://ac-3yr0g9cz.clouddn.com/e8070853e6c6f5627713.png', 3);
+INSERT INTO "nideshop_channel" VALUES (4, '服装',1005002, '/pages/category/category?id=1005002', 'http://ac-3yr0g9cz.clouddn.com/4fa3c0c72964901c5a45.png', 4);
+INSERT INTO "nideshop_channel" VALUES (5, '志趣',1019000, '/pages/category/category?id=1019000', 'http://ac-3yr0g9cz.clouddn.com/da8716daa0ede53a9bb8.png', 5);
 
 
 
