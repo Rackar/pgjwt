@@ -100,7 +100,7 @@ DROP TABLE IF EXISTS "nideshop_product" CASCADE;
 CREATE TABLE "nideshop_product" (
   "id" serial  NOT NULL  PRIMARY KEY,
   "goods_id" integer  NOT NULL DEFAULT '0' references nideshop_goods,
-  "goods_specification_ids" integer NOT NULL DEFAULT '0' references nideshop_goods_specification,
+  "goods_specification_ids" text NOT NULL DEFAULT '' ,
   "goods_sn" varchar(60) NOT NULL DEFAULT '',
   "goods_number" integer  NOT NULL DEFAULT '0',
   "retail_price" decimal(10,2)  NOT NULL DEFAULT '0.00'
