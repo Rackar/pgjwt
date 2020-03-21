@@ -1,6 +1,7 @@
 create extension if not exists pgcrypto;
 CREATE EXTENSION if not exists pgjwt;
 
+DROP TABLE IF EXISTS "users" CASCADE;
 CREATE TABLE IF NOT EXISTS
 users (
   email    TEXT PRIMARY KEY CHECK ( email ~* '^.+@.+\..+$' ),
@@ -8,19 +9,27 @@ users (
   role     NAME NOT NULL CHECK (length(role) < 256)
 );
 
+DROP TABLE IF EXISTS "artists" CASCADE;
 CREATE TABLE IF NOT EXISTS
 artists (
   name TEXT PRIMARY KEY CHECK (length(name) < 256),
-  mb_id UUID UNIQUE,
   date_formed DATE 
 );
 
+INSERT INTO "artists" VALUES ('Jay',date '2016-12-15');
+INSERT INTO "artists" VALUES ('Yan',date '2016-12-16');
+
+DROP TABLE IF EXISTS "sort_types" CASCADE;
 CREATE TABLE IF NOT EXISTS
 sort_types (
   name TEXT PRIMARY KEY CHECK (length(name) < 256),
   description TEXT NOT NULL CHECK (length(description) < 512)
 );
 
+INSERT INTO "sort_types" VALUES ('流派','音乐风格');
+INSERT INTO "sort_types" VALUES ('流行度','粉丝和销量数量');
+
+DROP TABLE IF EXISTS "sorts" CASCADE;
 CREATE TABLE IF NOT EXISTS
 sorts (
   artist_name TEXT NOT NULL REFERENCES artists(name),
@@ -28,12 +37,22 @@ sorts (
   ordinal INTEGER NOT NULL
 );
 
+INSERT INTO "sorts" VALUES ('Jay','流派',1);
+INSERT INTO "sorts" VALUES ('Jay','流行度',1);
+INSERT INTO "sorts" VALUES ('Yan','流派',2);
+INSERT INTO "sorts" VALUES ('Yan','流行度',2);
+
+DROP TABLE IF EXISTS "rating_types" CASCADE;
 CREATE TABLE IF NOT EXISTS
 rating_types (
   name TEXT PRIMARY KEY CHECK (length(name) < 256),
   description TEXT NOT NULL CHECK (length(description) < 512)
 );
 
+INSERT INTO "rating_types" VALUES ('颜值','对颜值的打分');
+INSERT INTO "rating_types" VALUES ('能力','对能力的打分');
+
+DROP TABLE IF EXISTS "ratings" CASCADE;
 CREATE TABLE IF NOT EXISTS
 ratings (
   artist_name TEXT NOT NULL REFERENCES artists(name),
@@ -107,22 +126,6 @@ $$ LANGUAGE sql;
 DROP TYPE IF EXISTS jwt_claims CASCADE;
 CREATE TYPE jwt_claims AS (role TEXT, email TEXT);
 
--- CREATE OR REPLACE FUNCTION
--- login(email TEXT, pass TEXT) RETURNS jwt_claims
---   LANGUAGE plpgsql
---   AS $$
--- DECLARE
---   _role NAME;
---   result JWT_CLAIMS; 
--- BEGIN
---   SELECT user_role(email, pass) INTO _role;
---   IF _role IS NULL THEN 
---     RAISE invalid_password USING message = 'invalid user or password';
---   END IF;
---   SELECT _role AS role, login.email AS email INTO result;
---   RETURN result;
--- END;
--- $$;
 
 DROP TYPE IF EXISTS jwt_token CASCADE;
 CREATE TYPE jwt_token AS (
@@ -166,7 +169,8 @@ GRANT SELECT ON TABLE sorts TO music_lover;
 GRANT SELECT ON TABLE rating_types TO music_lover;
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE ratings TO music_lover;
 
-GRANT SELECT, INSERT ON TABLE users TO anon;
+-- 允许插入不允许查询
+GRANT INSERT ON TABLE users TO anon;
 GRANT EXECUTE ON FUNCTION
   login(text,text),
   signup(text, text)
