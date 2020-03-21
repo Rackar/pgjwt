@@ -124,7 +124,7 @@ CREATE TYPE jwt_claims AS (role TEXT, email TEXT);
 -- END;
 -- $$;
 
-DROP TYPE IF jwt_token CASCADE;
+DROP TYPE IF EXISTS jwt_token CASCADE;
 CREATE TYPE jwt_token AS (
   token text
 );
